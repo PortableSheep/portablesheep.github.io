@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Weeble Context Menu</title>
+	<link rel="stylesheet" href="bower_components\fontawesome\css\font-awesome.css">
+	<link rel="stylesheet" href="jquery.weeble.css">
+
+	<style>
+		#ulWeebleMenu {
+			display: none;
+		}
+
+		.target2 {
+			width: 400px;
+			list-style: none;
+			margin: 0;
+			margin-top: 20px;
+			padding: 0;
+			border: 1px solid #888;
+			border-radius: 3px;
+		}
+		.target2 li {
+			padding: .4em;
+			border-bottom: 1px solid #DDD;
+			cursor: pointer;
+		}
+		.target2 li:last-child {
+			border-bottom: 0;
+		}
+
+		.target2 li:hover {
+			background-color: #EEE;
+		}
+	</style>
+</head>
+<body>
+	<p>This is an example of the weeble context menu.</p>
+	
+	<ul class="target2 someTarget">
+		<li>List item 1</li>
+		<li>List item 2</li>
+		<li>List item 3</li>
+		<li>List item 4</li>
+		<li>List item 5</li>
+	</ul>	
+
+
+	<ul id="ulWeebleMenu">
+		<li>
+			<i class="fa fa-trash-o"></i>
+			<span>Delete</span>
+		</li>
+		<li>
+			<i class="fa fa-pencil"></i>
+			<span>Rename</span>
+		</li>
+		<li>
+			<i class="fa fa-download"></i>
+			<span>Download</span>
+		</li>
+		<li>
+			<i class="fa fa-files-o"></i>
+			<span>Replace</span>
+		</li>
+	</ul>
+
+	<script src="bower_components\jquery\dist\jquery.min.js" type="text/javascript"></script>
+	<script src="jquery.weeble.js" type="text/javascript"></script>
+	<script>
+		$('#ulWeebleMenu').weeble({
+			target: '.someTarget li'
+		}).on('weeble_onItemClick', function(e, inst, item, position) {
+			switch(position) {
+				case 1:
+					console.log('Delete');
+					break;
+				case 2:
+					console.log('Rename');
+					break;
+				case 3:
+					console.log('Download');
+					break;
+				case 4: 
+					console.log('Replace');
+					break;
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+body {
+	background-color: #333;
+	color: #fff;
+}
+
+pre {
+	background-color: #333;
+	color: #FFF;
+	box-shadow: none;
+	border:  none;
+}
+
+.nav-link {
+	color: #BBB;
+	text-decoration: underline;
+}
+
+.nav-link:hover {
+	color: #FFF;
+}
+
+.blurb {
+	font-size: 1rem;
+}
+
+.blurb a {
+	display: inline-block;
+}

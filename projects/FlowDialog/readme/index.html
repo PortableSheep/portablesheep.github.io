@@ -1,0 +1,685 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Flow Dialog</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/fontello.css">
+        <link href="..\flowdialog.css" rel="stylesheet">
+        <style>
+            .btn {
+                display: inline-block;
+                margin-bottom: 0;
+                font-weight: 400;
+                text-align: center;
+                vertical-align: middle;
+                cursor: pointer;
+                background-image: none;
+                border: 1px solid transparent;
+                white-space: nowrap;
+                padding: 6px 12px;
+                font-size: 14px;
+                line-height: 1.42857143;
+                border-radius: 4px;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            .btn-default {
+                color: #333;
+                background-color: #fff;
+                border-color: #ccc;
+            }
+            .btn-primary {
+                color: #fff;
+                background-color: #428bca;
+                border-color: #357ebd;
+            }
+
+            #jumbo {
+                background-color: #333;
+            }
+
+            #jumbo h1 {
+                color: #3E71A2;
+            }
+
+            #jumbo p {
+                color: #EEE;
+            }
+
+            .compat-content span {
+                font-size: 24px;
+            }
+
+            .highlight {
+                min-height: 200px;
+                background-color: #f7f7f9;
+                border: 1px solid #e1e1e8;
+                border-radius: 4px;
+            }
+            
+            .features > div {
+                padding-left: 3em;
+            }
+            .features > div:first-child {
+                padding-left: 2em;
+            }
+            .features > div:last-child {
+                padding-left: 4em;
+            }
+
+            .demo h3 {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="jumbo" class="jumbotron">
+            <div class="container">
+                <h1 style="display: inline-block;">
+                    FlowDialog
+                </h1>
+                <span style="color: #FFF; font-size: 1em;">v1.0.9</span>
+                <p>
+                    A top positioned bootstrap inspired modal dialog, that supports flows between content in the same dialog instance.
+                </p>
+            </div>
+        </div>
+        <div class="container" style="margin-bottom: 4em;">
+            <h2>
+                Features
+            </h2>
+            <div class="row highlight">
+                <div class="col-md-4">
+                    <h3>
+                        Flow
+                    </h3>
+                    <p>
+                        Define other dialog contents and link them so users can flow between them, like a wizard.
+                    </p>
+                    <p>
+                        Each step in the flow can override basic options.
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Overflow scrolling</h3>
+                    <p>Inspired by the bootstrap dialog, flowdialog will allow the entire dialog to be scrolled vertically (without scrolling the underlying page) if it overflows off the page.</p>
+                    <p>Fixed height dialogs will allow the content to scroll vertically.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>
+                        Transitions
+                    </h3>
+                    <p>
+                        Changes in height and width between flows use jQuery animations to make the changes visually appealing.
+                    </p>
+                    <p>In the future, CSS transitions will be supported.</p>
+                </div>
+            </div>
+            <div class="row highlight" style="margin-top: 1em;">
+                <div class="col-md-4">
+                    <h3>Markup based footer</h3>
+                    <p>The footer content is defined in the dialog HTML, allowing better customization, and more control over the behavior.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>Flow option overrides</h3>
+                    <p>Each dialog in the flow can have their own options.</p> <p>If no options are specified, it inherits the options of the main dialog in the flow.</p>
+                </div>
+                <div class="col-md-4">
+                    <h3>
+                        Compatibility
+                    </h3>
+                    <p class="compat-content">
+                        <span class="icon-ie" style="color: #396895;"></span> IE9+
+                        <br />
+                        <span class="icon-firefox" style="color: #E13613;"></span> FireFox
+                        <br />
+                        <span class="icon-chrome"></span> Chrome
+                    </p>
+                </div>
+            </div>
+            <hr style="margin-top: 3em; margin-bottom: 3em;">
+            <h2>
+                Demo
+            </h2>
+            <div class="row demo">
+                <div class="col-md-1"></div>
+                <div class="col-md-4 highlight" style="text-align: center; min-height: 150px;">
+                    <h3>Single dialog</h3>
+                    <p>A simple single dialog, with defaut options.</p>
+                    <button id="btnLaunchSingleDialog" class="btn btn-info btn-lg">Launch Single Dialog</button>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4 highlight" style="text-align: center; min-height: 150px;">
+                    <h3>Flow dialog</h3>
+                    <p>A dialog flow, with 3 steps, and transitions.</p>
+                    <button id="btnLaunchFlowDialog" class="btn btn-warning btn-lg">Launch Flow dialog</button>
+                </div>          
+            </div>
+            <hr style="margin-top: 3em; margin-bottom: 3em;">
+            <h2>Dialog structure</h2>
+            <div class="row">
+                <h4>Title</h4>
+                <div style="min-height: 0; padding: 1em;" class="highlight">
+                    <p>The dialog title is defined by supplying a "title" attribute on the dialogs main DOM node.</p>
+                    <samp>&lt;div id=&quot;divSomeDialog&quot; <code>title=&quot;Your dialog title goes here&quot;</code>&gt;&lt;/div&gt;</samp>
+                </div>
+                <h4>Footer</h4>
+                <div style="min-height: 0; padding: 1em;" class="highlight">
+                    <p>The dialog footer is defined by decorating a div in the dialog content, with a "data-type" attribute, with a value of "footer".</p>
+                    <samp>
+                        &lt;div id=&quot;divSomeDialog&quot; title=&quot;Your dialog title goes here&quot;&gt;<br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Your content goes here.&lt;/p&gt;<br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;div data-type=&quot;footer&quot;&gt;</code><br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;span&gt;Some footer content&lt;/span&gt;</code><br />
+                        &nbsp;&nbsp;&nbsp;&nbsp;<code>&lt;/div&gt;</code><br />
+                        &lt;/div&gt;<br />
+                    </samp>
+                </div>
+            </div>
+            <hr style="margin-top: 3em; margin-bottom: 3em;">
+            <h2>
+                Options
+            </h2>
+            <div class="row" style="border: 1px solid #e1e1e8; border-radius: 4px;">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Default</th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>height</td>
+                            <td><code>auto</code></td>
+                            <td>The height of the dialog content. If 'auto', the height will grow with the content.</td>
+                        </tr>
+                        <tr>
+                            <td>growToHeight</td>
+                            <td><code>true</code></td>
+                            <td>If true, the 'height' option is considered the "max" height, and the content will grow to it. Once the height is exceeded, the content will vertically scroll.</td>
+                        </tr>
+                        <tr>
+                            <td>width</td>
+                            <td><code>600</code></td>
+                            <td>The width of the dialog content.</td>
+                        </tr>
+                        <tr>
+                            <td>showCloseButton</td>
+                            <td><code>true</code></td>
+                            <td>If true, the upper right close icon is visible.</td>
+                        </tr>
+                        <tr>
+                            <td>closeOnEscape</td>
+                            <td><code>false</code></td>
+                            <td>If true, the dialog can be dismissed by pressing escape on the keyboard.</td>
+                        </tr>
+                        <tr>
+                            <td>closeOnOverlayClick</td>
+                            <td><code>false</code></td>
+                            <td>If true, the dialog can be dismissed by clicking off of the dialog.</td>
+                        </tr>
+                        <tr>
+                            <td>autoOpen</td>
+                            <td><code>false</code></td>
+                            <td>If true, the dialog will open on load.</td>
+                        </tr>
+                        <tr>
+                            <td>appendTo</td>
+                            <td><code>document.body</code></td>
+                            <td>The element to append the dialog DOM to. Usually you'll want this to be the body of the page documents.</td>
+                        </tr>
+                        <tr>
+                            <td>hideEmptyFooter</td>
+                            <td><code>true</code></td>
+                            <td>If true, the footer area will be hidden if no footer was defined.</td>
+                        </tr>
+                        <tr>
+                            <td>hideEmptyTitle</td>
+                            <td><code>false</code></td>
+                            <td>If true, the title/header area will be hidden if no title is defined, and the close button is hidden.</td>
+                        </tr>
+                        <tr>
+                            <td>useTransitions</td>
+                            <td><code>true</code></td>
+                            <td>If true, jQuery transitions/animations will be used when showing, hiding, or resizing the dialog.</td>
+                        </tr>
+                        <tr>
+                            <td>animateDuration</td>
+                            <td><code>250</code></td>
+                            <td>The amount of milliseconds animations will take to complete when <code>useTransitions = true</code> <strong>AND</strong> <code>useCSSTransitions = false</code></td>
+                        </tr>
+                        <tr>
+                            <td>flow</td>
+                            <td><code>[]</code></td>
+                            <td>An array of "flow" object maps, allowing you to link multiple dialog contents into a flow.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>Events</h2>
+            <div class="row" style="border: 1px solid #e1e1e8; border-radius: 4px;">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>onOpen</td>
+                            <td>Triggered when the dialog has been opened.</td>
+                        </tr>
+                        <tr>
+                            <td>onPreClose</td>
+                            <td>Triggered when the dialog is about to close. Preventing default will prevent the dialog from actually closing.</td>
+                        </tr>
+                        <tr>
+                            <td>onClose</td>
+                            <td>Triggered when the dialog has been closed.</td>
+                        </tr>
+                        <tr>
+                            <td>onReposition</td>
+                            <td>Triggered when the dialog has been recentered on the page.</td>
+                        </tr>
+                        <tr>
+                            <td>onFlow</td>
+                            <td>Triggered when the dialog flow has changed.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h2>Functions</h2>
+            <div class="row" style="border: 1px solid #e1e1e8; border-radius: 4px;">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Name</th>
+                        <th>Arguments</th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>open</td>
+                            <td><code>(optional) index</code></td>
+                            <td>Opens the dialog. If an index is passed in, it will open the dialog to that index in the flow.</td>
+                        </tr>
+                        <tr>
+                            <td>close</td>
+                            <td></td>
+                            <td>Closes the dialog</td>
+                        </tr>
+                        <tr>
+                            <td>option</td>
+                            <td><code>name, (optional) value</code></td>
+                            <td>If no value is passed in, the value for the matching name will be returned. Otherwise, the value for the matching option will be set.</td>
+                        </tr>
+                        <tr>
+                            <td>reposition</td>
+                            <td></td>
+                            <td>Repositions the dialog.</td>
+                        </tr>
+                        <tr>
+                            <td>flow</td>
+                            <td><code>command, [arguments]</code></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <hr style="margin-top: 3em; margin-bottom: 3em;">
+            <h2>Examples</h2>
+            <div class="row">
+                <h4>Creating a dialog</h4>
+                <div class="col-md-6">
+                HTML
+<pre style="min-height: 130px;">&lt;div id=&quot;divDialogExample&quot; title=&quot;Example Dialog&quot;&gt;
+    &lt;p&gt;Your dialog content goes here.&lt;/p&gt;
+    &lt;div data-type=&quot;footer&quot;&gt;
+        &lt;span&gt;Your footer content goes here.&lt;/span&gt; &lt;button&gt;Close&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+                <div class="col-md-6">
+                JavaScript
+<pre style="min-height: 130px;">
+var $divDialogExample = $('#divDialogExample').flowdialog({
+   height: 400,
+   width: 700,
+   growToHeight: false 
+});
+</pre>
+                </div>          
+            </div>
+            <div class="row">
+                <h4>Creating a flow</h4>
+                <div class="col-md-6">
+                HTML
+<pre style="max-height: 400px; overflow-y: auto;">&lt;div id=&quot;divFlowDialog1&quot; title=&quot;Step 1&quot;&gt;
+    &lt;p&gt;Your dialog content for step 1 goes here.&lt;/p&gt;
+    &lt;div data-type=&quot;footer&quot;&gt;
+        &lt;button class=&quot;btn-flow-cancel&quot;&gt;Cancel&lt;/button&gt;
+        &lt;button class=&quot;btn-flow-next&quot;&gt;Next&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;divFlowDialog2&quot; title=&quot;Step 2&quot;&gt;
+    &lt;p&gt;Your dialog content for step 2 goes here.&lt;/p&gt;
+    &lt;div data-type=&quot;footer&quot;&gt;
+        &lt;button class=&quot;btn-flow-cancel&quot;&gt;Cancel&lt;/button&gt;
+        &lt;button class=&quot;btn-flow-prev&quot;&gt;Previous&lt;/button&gt;
+        &lt;button class=&quot;btn-flow-next&quot;&gt;Next&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div id=&quot;divFlowDialog3&quot; title=&quot;Final Step&quot;&gt;
+    &lt;p&gt;Your dialogs content for the final step goes here.&lt;/p&gt;
+    &lt;div data-type=&quot;footer&quot;&gt;
+        &lt;button class=&quot;btn-flow-cancel&quot;&gt;Cancel&lt;/button&gt;
+        &lt;button class=&quot;btn-flow-prev&quot;&gt;Previous&lt;/button&gt;
+        &lt;button class=&quot;btn-flow-finish&quot;&gt;Finish&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+                </div>
+                <div class="col-md-6">
+                JavaScript
+<pre style="max-height: 400px; overflow-y: auto;">
+var $divFlowDialog1 = $('#divFlowDialog1'),
+    $divFlowDialog2 = $('#divFlowDialog2'),
+    $divFlowDialog3 = $('#divFlowDialog3'),
+    $btnFlowCancel = $('button.btn-flow-cancel'),
+    $btnFlowPrev = $('button.btn-flow-prev'),
+    $btnFlowNext = $('button.btn-flow-next'),
+    $btnFlowFinish = $('button.btn-flow-finish');
+
+//Create the main dialog instance.
+$divFlowDialog1.flowdialog({
+    height: 500,
+    growToHeight: true,
+    width: 700,
+    flow: [{
+        target: $divFlowDialog2,
+        //Override the height/width of the dialog.
+        height: 300,
+        width: 500
+    }, {
+        //No height/width means it'll use the main instance defaults.
+        target: $divFlowDialog3
+    }] 
+});
+
+//Bind up the button handlers for the flows.
+$btnFlowCancel.on('click', function(e) {
+    e.preventDefault();
+    //Close the flow dialog.
+    $divFlowDialog1.flowdialog('close'); 
+});
+
+$btnFlowPrev.on('click', function(e) {
+    e.preventDefault();
+    //Flow to the previous step.
+    $divFlowDialog1.flowdialog('flow', 'prev');    
+});
+
+$btnFlowNext.on('click', function(e) {
+    e.preventDefault();
+    //Flow to the next step.
+    $divFlowDialog1.flowdialog('flow', 'next'); 
+});
+
+$btnFlowFinish.on('click', function(e) {
+   e.preventDefault();
+   //Perform some actions, then close the dialog.
+   $divFlowDialog1.flowdialog('close'); 
+});
+</pre>
+                </div>          
+            </div>
+            <div class="row">
+                <h4>Getting or setting option(s)</h4>
+                <div class="col-md-6">
+                    Setting
+                    <pre style="min-height: 200px;">
+//Set single
+$divDialogExample.flowdialog('option', 'height', 400);
+
+//Set multiple
+$divDialogExample.flowdialog('option', {
+    'height': 400,
+    'width': 600
+});
+                    </pre>
+                    <span class="bg-info" style="font-size: 1em;">Note: If using flow, the setting of option(s) applies to the active flow item.</span>
+                </div>          
+                <div class="col-md-6">
+                    Getting
+                    <pre style="min-height: 200px;">
+var height = $divDialogExample.flowdialog('option', 'height');        
+                    </pre>
+                </div>
+            </div>
+            <hr style="margin-top: 3em; margin-bottom: 3em;">
+            <div class="row">
+                <h4 style="margin-top: 4em;">Changelog</h4>
+                <ul style="list-style: none; padding-left: 1em;">
+                    <li>
+                        1.0.9
+                        <ul>
+                            <li>Updated package and readme hosting for NPM.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.8
+                        <ul>
+                            <li>Fixed a bug where pressing escape to close the dialog when there are multiple flows causes the dialog resizing to go crazy.</li>
+                            <li>Added flowdialog_onInitComplete event.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.7
+                        <ul>
+                            <li>Fixed a bug where the reflow from fixed height to growToHeight could get stuck at the mid animation height.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.6
+                        <ul>
+                            <li>Changed return processing of commands to be more explicit.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.5
+                        <ul>
+                            <li>Changed flow navigation events to be unified.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.4
+                        <ul>
+                            <li>Added index argument to 'open', so you can open directly to a step in the flow.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.3
+                        <ul>
+                            <li>Fixed animation issues with IE.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.2
+                        <ul>
+                            <li>Added flow feature.</li>
+                            <li>Added flow animations.</li>
+                        </ul>
+                    </li>
+                    <li>
+                        1.0.1
+                        <ul>
+                            <li>Added growToHeight option.</li>
+                            <li>Fixed scrolling issue on open due to dialog not having focus.</li>
+                            <li>Changed overflow CSS class to use auto scrollbars.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div id="simpleDialog" title="Simple Dialog">
+            <p>
+                Bacon ipsum dolor sit amet turducken consectetur tongue, ham eiusmod pariatur adipisicing tail fugiat non ut. Culpa beef ribs est pork loin pork cillum dolore ex tail in. Corned beef do officia kielbasa sirloin culpa ribeye mollit cow sed filet mignon sunt shank ball tip. Brisket minim frankfurter pork belly, ut filet mignon pork tempor quis cupidatat shankle in ea.
+            </p>
+            <p>
+                Labore anim kevin landjaeger, pariatur id short ribs beef ribs. Nulla veniam cillum dolor, ut pork belly eiusmod laboris velit proident ut. Est shankle laboris swine. Adipisicing boudin pork chop aliqua doner aute.
+            </p>
+            <p>
+                Shankle non ad nisi short loin enim. Reprehenderit adipisicing ham prosciutto porchetta irure ground round in shankle exercitation pork loin eu. Dolore velit in tail. Hamburger elit andouille, tail reprehenderit swine fatback duis frankfurter ea spare ribs.
+            </p>
+            <div data-type="footer">
+                Please click Cancel, or Save. <button class="btn btnDialogCancel">Cancel</button> <button class="btn btn-primary btnDialogCancel">Save</button>
+            </div>
+        </div>
+        <div id="flowDialogStep1" title="Flow Dialog Step 1">
+            <p>
+                Bacon ipsum dolor sit amet turducken consectetur tongue, ham eiusmod pariatur adipisicing tail fugiat non ut. Culpa beef ribs est pork loin pork cillum dolore ex tail in. Corned beef do officia kielbasa sirloin culpa ribeye mollit cow sed filet mignon sunt shank ball tip. Brisket minim frankfurter pork belly, ut filet mignon pork tempor quis cupidatat shankle in ea.
+            </p>
+            <p>
+                Labore anim kevin landjaeger, pariatur id short ribs beef ribs. Nulla veniam cillum dolor, ut pork belly eiusmod laboris velit proident ut. Est shankle laboris swine. Adipisicing boudin pork chop aliqua doner aute.
+            </p>
+            <p>
+                Shankle non ad nisi short loin enim. Reprehenderit adipisicing ham prosciutto porchetta irure ground round in shankle exercitation pork loin eu. Dolore velit in tail. Hamburger elit andouille, tail reprehenderit swine fatback duis frankfurter ea spare ribs.
+            </p>
+            <div data-type="footer">
+                <button class="btn btnFlowCancel">Cancel</button>
+                <button class="btn btn-primary btnFlowNext">Next</button>
+            </div>
+        </div>
+        <div id="flowDialogStep2" title="Flow Dialog Step 2">
+            <p>
+                Bacon ipsum dolor sit amet turducken consectetur tongue, ham eiusmod pariatur adipisicing tail fugiat non ut. Culpa beef ribs est pork loin pork cillum dolore ex tail in. Corned beef do officia kielbasa sirloin culpa ribeye mollit cow sed filet mignon sunt shank ball tip. Brisket minim frankfurter pork belly, ut filet mignon pork tempor quis cupidatat shankle in ea.
+            </p>
+            <p>
+                Labore anim kevin landjaeger, pariatur id short ribs beef ribs. Nulla veniam cillum dolor, ut pork belly eiusmod laboris velit proident ut. Est shankle laboris swine. Adipisicing boudin pork chop aliqua doner aute.
+            </p>
+            <p>
+                Shankle non ad nisi short loin enim. Reprehenderit adipisicing ham prosciutto porchetta irure ground round in shankle exercitation pork loin eu. Dolore velit in tail. Hamburger elit andouille, tail reprehenderit swine fatback duis frankfurter ea spare ribs.
+            </p>
+            <div data-type="footer">
+                <button class="btn btnFlowCancel">Cancel</button>
+                <button class="btn btnFlowPrev">Previous</button>
+                <button class="btn btn-primary btnFlowNext">Next</button>
+            </div>
+        </div>
+        <div id="flowDialogStep3" title="Flow Dialog Step 3">
+            <h4>Some long content to show dialog scrolling</h4>
+            <p>
+                Bacon ipsum dolor sit amet turducken consectetur tongue, ham eiusmod pariatur adipisicing tail fugiat non ut. Culpa beef ribs est pork loin pork cillum dolore ex tail in. Corned beef do officia kielbasa sirloin culpa ribeye mollit cow sed filet mignon sunt shank ball tip. Brisket minim frankfurter pork belly, ut filet mignon pork tempor quis cupidatat shankle in ea.
+            </p>
+            <p>
+                Labore anim kevin landjaeger, pariatur id short ribs beef ribs. Nulla veniam cillum dolor, ut pork belly eiusmod laboris velit proident ut. Est shankle laboris swine. Adipisicing boudin pork chop aliqua doner aute.
+            </p>
+            <p>
+                Shankle non ad nisi short loin enim. Reprehenderit adipisicing ham prosciutto porchetta irure ground round in shankle exercitation pork loin eu. Dolore velit in tail. Hamburger elit andouille, tail reprehenderit swine fatback duis frankfurter ea spare ribs.
+            </p>
+            <p>
+                Bacon ipsum dolor sit amet turducken consectetur tongue, ham eiusmod pariatur adipisicing tail fugiat non ut. Culpa beef ribs est pork loin pork cillum dolore ex tail in. Corned beef do officia kielbasa sirloin culpa ribeye mollit cow sed filet mignon sunt shank ball tip. Brisket minim frankfurter pork belly, ut filet mignon pork tempor quis cupidatat shankle in ea.
+            </p>
+            <p>
+                Labore anim kevin landjaeger, pariatur id short ribs beef ribs. Nulla veniam cillum dolor, ut pork belly eiusmod laboris velit proident ut. Est shankle laboris swine. Adipisicing boudin pork chop aliqua doner aute.
+            </p>
+            <p>
+                Shankle non ad nisi short loin enim. Reprehenderit adipisicing ham prosciutto porchetta irure ground round in shankle exercitation pork loin eu. Dolore velit in tail. Hamburger elit andouille, tail reprehenderit swine fatback duis frankfurter ea spare ribs.
+            </p>
+            <p>
+                Bacon ipsum dolor sit amet turducken consectetur tongue, ham eiusmod pariatur adipisicing tail fugiat non ut. Culpa beef ribs est pork loin pork cillum dolore ex tail in. Corned beef do officia kielbasa sirloin culpa ribeye mollit cow sed filet mignon sunt shank ball tip. Brisket minim frankfurter pork belly, ut filet mignon pork tempor quis cupidatat shankle in ea.
+            </p>
+            <p>
+                Labore anim kevin landjaeger, pariatur id short ribs beef ribs. Nulla veniam cillum dolor, ut pork belly eiusmod laboris velit proident ut. Est shankle laboris swine. Adipisicing boudin pork chop aliqua doner aute.
+            </p>
+            <p>
+                Shankle non ad nisi short loin enim. Reprehenderit adipisicing ham prosciutto porchetta irure ground round in shankle exercitation pork loin eu. Dolore velit in tail. Hamburger elit andouille, tail reprehenderit swine fatback duis frankfurter ea spare ribs.
+            </p>
+            <p>
+                Bacon ipsum dolor sit amet turducken consectetur tongue, ham eiusmod pariatur adipisicing tail fugiat non ut. Culpa beef ribs est pork loin pork cillum dolore ex tail in. Corned beef do officia kielbasa sirloin culpa ribeye mollit cow sed filet mignon sunt shank ball tip. Brisket minim frankfurter pork belly, ut filet mignon pork tempor quis cupidatat shankle in ea.
+            </p>
+            <div data-type="footer">
+                <button class="btn btnFlowCancel">Cancel</button>
+                <button class="btn btnFlowPrev">Previous</button>
+                <button class="btn btn-primary btnFlowFinish">Finish</button>
+            </div>
+        </div>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+        <script src="..\jquery.flowdialog.js"></script>
+        <script type="text/javascript">
+            var $simpleDialog = $('#simpleDialog'),
+                $btnLaunchSingleDialog = $('#btnLaunchSingleDialog'),
+                $btnDialogCancel = $('button.btnDialogCancel', $simpleDialog),
+                $flowDialogStep1 = $('#flowDialogStep1'),
+                $flowDialogStep2 = $('#flowDialogStep2'),
+                $flowDialogStep3 = $('#flowDialogStep3'),
+                $btnFlowCancel = $('button.btnFlowCancel'),
+                $btnFlowNext = $('button.btnFlowNext'),
+                $btnFlowPrev = $('button.btnFlowPrev'),
+                $btnFlowFinish = $('button.btnFlowFinish'),
+                $btnLaunchFlowDialog = $('#btnLaunchFlowDialog');
+
+            $btnLaunchSingleDialog.on('click', function(e) {
+                e.preventDefault();
+                $simpleDialog.flowdialog('open');
+            });
+
+            $btnDialogCancel.on('click', function(e) {
+                e.preventDefault();
+                $simpleDialog.flowdialog('close');
+            });
+
+            $simpleDialog.flowdialog({
+                height: 300,
+                width: 700,
+                closeOnEscape: true
+            });
+
+            $flowDialogStep1.on('flowdialog_onInitComplete', function() {
+                console.log(arguments);
+            })
+
+            $flowDialogStep1.flowdialog({
+                height: 'auto',
+                width: 500,
+                closeOnEscape: true,
+                flow: [{
+                    target: $flowDialogStep2,
+                    width: 700,
+                    height: 200
+                },
+                $flowDialogStep3
+                ]
+            });
+
+            $btnFlowCancel.on('click', function(e) {
+                e.preventDefault();
+                $flowDialogStep1.flowdialog('close');
+            });
+            $btnFlowNext.on('click', function(e) {
+                e.preventDefault();
+                $flowDialogStep1.flowdialog('flow', 'next');
+            });
+            $btnFlowPrev.on('click', function(e) {
+                e.preventDefault();
+                $flowDialogStep1.flowdialog('flow', 'prev');
+            });
+            $btnFlowFinish.on('click', function(e) {
+                e.preventDefault();
+                $flowDialogStep1.flowdialog('close');
+            });
+
+            $btnLaunchFlowDialog.on('click', function(e) {
+                e.preventDefault();
+                $flowDialogStep1.flowdialog('open');
+            });
+        </script>
+    </body>
+</html>
